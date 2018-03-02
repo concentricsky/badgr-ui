@@ -52,3 +52,13 @@
   }
 
 }
+
+.l-childrenhorizontal-stackmobile-achieve {
+  align-items: flex-start;
+  flex-direction: column;
+
+  @media (min-width: $media-tablet) {
+    flex-direction: row;
+  }
+
+}
