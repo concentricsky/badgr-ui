@@ -36,6 +36,12 @@
 
   }
 
+  .formcheckbox-x-text-sharebadge {
+    color: $color-dark2;
+    font-size: $font-size-small1;
+    line-height: $line-height;
+  }
+
   input:focus + .formcheckbox-x-text::before {
     border-color: $color-secondary;
   }

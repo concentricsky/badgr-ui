@@ -187,6 +187,21 @@ $transition-easing: ease-out;
   text-transform: uppercase;
 }
 
+// FormField Label
+@mixin label-formfield {
+  align-items: center;
+  color: $color-dark2;
+  display: flex;
+  font-size: $font-size-small2;
+  font-weight: bold;
+  justify-content: space-between;
+  letter-spacing: .5px;
+  margin-bottom: $gridspacing;
+  text-shadow: 1px 1px 1px rgba($color-light1, .5);
+  text-transform: uppercase;
+}
+
+
 // Pesudo Base
 // Common for ::before and ::after
 @mixin pseudobase {

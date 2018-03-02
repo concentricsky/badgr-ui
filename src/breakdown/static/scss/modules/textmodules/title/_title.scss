@@ -89,6 +89,11 @@
 
 }
 
+
+.title-label-formfield {
+  @include label-formfield;
+}
+
 .title-small {
   font-size: $font-size;
 }

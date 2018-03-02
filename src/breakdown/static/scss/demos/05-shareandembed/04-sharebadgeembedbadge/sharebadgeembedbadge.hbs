@@ -1,26 +1,73 @@
 <dialog class="{{render '@dialog'}} {{render '@dialog--titled'}} {{render '@wrap'}} {{render '@wrap--light'}}">
-  <header class="dialog-x-titlebar">
+	<header class="dialog-x-titlebar">
 		<h1>Share this Badge</h1>
 		<button class="dialog-x-close"><span class="icon icon-notext icon-close">Close</span></button>
 	</header>
+
 	{{render '@l-tabs' lTabsContext merge=true}}
-  <div class="{{render '@l-sharepane'}}" tabindex="-1" id="sharelinkembed">
-    {{render '@formfield--limitedtextarea' formFieldContext merge=true}}
-    <div class="{{render '@l-childrenhorizontal'}} {{render '@l-childrenhorizontal--spacebetween'}}">
-      <div class="{{render '@l-childrenhorizontal'}} {{render '@l-childrenhorizontal--small'}}">
-        {{render '@formradiobutton' formRadioButtonCardContext merge=true}}
-        {{render '@formradiobutton' formRadioButtonBadgeContext merge=true}}
-      </div>
-      {{render '@button' buttonCopyContext merge=true}}
-    </div>
-    {{render '@title' titleContext merge=true}}
-    <div class="l-sharepane-x-preview {{render '@wrap'}} {{render '@wrap--light4'}} {{render '@wrap--rounded'}} {{render '@l-childrencentered'}}">
-      <!-- NOTE: This is simply placeholder, will require diffrent code, possibly iframe -->
-      <div class="{{render '@badge'}}">
-        <!-- NOTE: Alt text should describe the image -->
-        <img src="http://placehold.it/256x256" alt="" width="128" height="128">
-      </div>
-    </div>
-  </div>
+
+	<div class="{{render '@l-sharepane'}}" tabindex="-1" id="sharelinkembed">
+
+		<div class="{{render '@l-childrenhorizontal--small'}}">
+			{{render '@formradiobutton' formRadioButtonCardContext merge=true}}
+			{{render '@formradiobutton' formRadioButtonBadgeContext merge=true}}
+		</div>
+
+		<div class="l-sharepane-x-preview {{render '@wrap'}} {{render '@wrap--light4'}}">
+			<p class="{{render '@label--formfield'}}">Badge Options</p>
+			<div class="l-sharepane-x-childrenhorizontal-marginbottom {{render '@l-margintop--2x'}}">
+				<label class="{{render '@formcheckbox' checkbox merge=true}}" for="form-checkbox">
+					<input name="form-checkbox" id="form-checkbox" value="value" type="checkbox">
+					<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Badge Name</span>
+				</label>
+
+				<label class="{{render '@formcheckbox' checkbox merge=true}}" for="form-checkbox2">
+					<input name="form-checkbox2" id="form-checkbox2" value="value2" type="checkbox">
+					<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Reciptient Name</span>
+				</label>
+
+				<label class="{{render '@formcheckbox' checkbox merge=true}}" for="form-checkbox3">
+					<input name="form-checkbox3" id="form-checkbox3" value="value3" type="checkbox">
+					<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Issuer Name</span>
+				</label>
+
+				<label class="{{render '@formcheckbox' checkbox merge=true}}" for="form-checkbox4">
+					<input name="form-checkbox4" id="form-checkbox4" value="value4" type="checkbox">
+					<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Description</span>
+				</label>
+
+				<label class="{{render '@formcheckbox' checkbox merge=true}}" for="form-checkbox5">
+					<input name="form-checkbox5" id="form-checkbox5" value="value5" type="checkbox">
+					<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Date Awarded</span>
+				</label>
+
+				<label class="{{render '@formcheckbox' checkbox merge=true}}" for="form-checkbox6">
+					<input name="form-checkbox6" id="form-checkbox6" value="value6" type="checkbox">
+					<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Incude Verification</span>
+				</label>
+			</div>
+		</div>
+
+		<div>
+			<p class="{{render '@label--formfield'}}">Preview</p>
+		    <div class="l-sharepane-x-preview {{render '@wrap'}} {{render '@wrap--light4'}} {{render '@wrap--rounded'}} {{render '@l-childrencentered'}}">
+		      <!-- NOTE: This is simply placeholder, will require diffrent code, possibly iframe -->
+		      <div class="{{render '@badge'}}">
+		        <!-- NOTE: Alt text should describe the image -->
+		        <img src="http://placehold.it/256x256" alt="" width="128" height="128">
+		      </div>
+		    </div>
+		</div>
+
+		{{render '@formfield--limitedtextarea' formFieldContext merge=true}}
+
+		<!-- move this to the right -->
+		<div class="{{render '@l-childrenhorizontal--right'}}">
+			{{render '@button' buttonCopyContext merge=true}}
+		</div>
+
+	</div>
+
+
 </dialog>
 {{render '@preview--scripts-opendialog'}}
