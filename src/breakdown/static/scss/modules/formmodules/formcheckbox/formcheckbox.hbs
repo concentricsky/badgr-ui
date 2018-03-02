@@ -1,4 +1,8 @@
-<label class="formcheckbox{{#if formcheckbox.classList?}} {{formcheckbox.classList?}}{{/if}}" for="{{id}}">
-	<input name="{{id}}" id="{{id}}" type="checkbox">
-	<span class="formcheckbox-x-text">{{text}}</span>
-</label>
+{{~#if moduleName~}}
+	formcheckbox
+{{~else~}}
+	<label class="formcheckbox{{#if formcheckbox.classList?}} {{formcheckbox.classList?}}{{/if}}" for="{{id}}">
+		<input name="{{id}}" id="{{id}}" type="checkbox">
+		<span class="formcheckbox-x-text">{{text}}</span>
+	</label>
+{{~/if~}}

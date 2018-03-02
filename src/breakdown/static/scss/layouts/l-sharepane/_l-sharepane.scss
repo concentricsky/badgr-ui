@@ -5,6 +5,14 @@
     margin-bottom: $gridspacing * 2;
   }
 
+  .l-sharepane-x-childrenhorizontal-marginbottom {
+
+    & :not( :last-child ) {
+      margin-bottom: $gridspacing;
+    }
+
+  }
+
   .l-sharepane-x-preview {
     padding: $gridspacing * 2;
   }

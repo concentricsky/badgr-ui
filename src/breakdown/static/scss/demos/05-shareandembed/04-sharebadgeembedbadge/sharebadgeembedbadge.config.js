@@ -1,10 +1,13 @@
 module.exports = {
   context: {
     buttonCopyContext: {
-      text: 'Copied!'
+      text: 'Copy'
     },
     buttonValidateContext: {
       text: 'Validate'
+    },
+    checkbox: {
+        moduleName: true
     },
     formFieldContext: {
       id: 'copy',

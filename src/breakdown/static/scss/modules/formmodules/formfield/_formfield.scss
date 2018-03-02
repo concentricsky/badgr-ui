@@ -3,16 +3,7 @@
 
   > label,
   .formfield-x-label {
-    align-items: center;
-    color: $color-dark2;
-    display: flex;
-    font-size: $font-size-small2;
-    font-weight: bold;
-    justify-content: space-between;
-    letter-spacing: .5px;
-    margin-bottom: $gridspacing;
-    text-shadow: 1px 1px 1px rgba($color-light1, .5);
-    text-transform: uppercase;
+    @include label-formfield;
 
     span {
       letter-spacing: 0;

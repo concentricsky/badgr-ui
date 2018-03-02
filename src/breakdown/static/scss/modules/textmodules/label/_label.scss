@@ -1,0 +1,5 @@
+.label {  }
+
+.label-formfield {
+  @include label-formfield;
+}
