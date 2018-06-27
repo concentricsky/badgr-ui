@@ -54,6 +54,18 @@ export class UserProfile extends ManagedEntity<ApiUserProfile, UserProfileRef> {
 	get lastName() { return this.apiModel.last_name }
 	set lastName(lastName: string) { this.apiModel.last_name = lastName }
 
+	get agreedTermsVersion() { return this.apiModel.agreed_terms_version; }
+	get latestTermsVersion() { return this.apiModel.latest_terms_version; }
+	agreeToLatestTerms() {
+		this.apiModel.agreed_terms_version = this.apiModel.latest_terms_version;
+		return this.save();
+	}
+
+	get latestTermsDescription() { return this.apiModel.latest_terms_description; }
+
+	get marketingOptIn() { return this.apiModel.marketing_opt_in; }
+	set marketingOptIn(optedIn: boolean) { this.apiModel.marketing_opt_in = true }
+
 	save(): Promise<this> {
 		return this.profileService.updateProfile(this.apiModel)
 			.then(m => this.applyApiModel(m));

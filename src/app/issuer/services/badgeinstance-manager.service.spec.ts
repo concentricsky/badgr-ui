@@ -163,7 +163,7 @@ function expectBadgeInstanceListRequest(
 	return expectRequestAndRespondWith(
 		mockBackend,
 		RequestMethod.Get,
-		`/v1/issuer/issuers/${issuerSlug}/badges/${badgeClassSlug}/assertions`,
+		`/v1/issuer/issuers/${issuerSlug}/badges/${badgeClassSlug}/assertions?num=100`,
 		instances
 	)
 }

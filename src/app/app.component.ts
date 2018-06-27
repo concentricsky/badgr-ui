@@ -20,6 +20,8 @@ import { ExternalToolsManager } from "app/externaltools/services/externaltools-m
 
 
 import { detect } from "detect-browser";
+import {UserProfileManager} from "./common/services/user-profile-manager.service";
+import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
 
 // Shim in support for the :scope attribute
 // See https://github.com/lazd/scopedQuerySelectorShim and
@@ -65,6 +67,7 @@ import { detect } from "detect-browser";
 		<router-outlet *ngIf="!hasFatalError"></router-outlet>
 
 		<confirm-dialog #confirmDialog></confirm-dialog>
+		<new-terms-dialog #newTermsDialog></new-terms-dialog>
 		<share-social-dialog #shareSocialDialog></share-social-dialog>
 
 		<footer class="wrap l-containerhorizontal" *ngIf="showAppChrome">
@@ -95,8 +98,7 @@ import { detect } from "detect-browser";
 
 				<!-- Authenticated Menu -->
 				<ng-template [ngIf]="loggedIn && ! isOAuthAuthorizationInProcess">
-					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badges']">My
-						Badges</a></li>
+					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badges']">Backpack</a></li>
 					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badge-collections']">Collections</a>
 					</li>
 					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/issuer']">Issuers</a></li>
@@ -142,6 +144,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 	@ViewChild("confirmDialog")
 	private confirmDialog: ConfirmDialog;
 
+	@ViewChild("newTermsDialog")
+	private newTermsDialog: NewTermsDialog;
+
 	@ViewChild("shareSocialDialog")
 	private shareSocialDialog: ShareSocialDialog;
 
@@ -172,6 +177,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 	constructor(
 		private sessionService: SessionService,
+		private profileManager: UserProfileManager,
 		private router: Router,
 		private messageService: MessageService,
 		private configService: SystemConfigService,
@@ -189,6 +195,14 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 		this.initScrollFix();
 		this.initAnalytics();
+
+		if (sessionService.isLoggedIn) {
+			profileManager.userProfilePromise.then(profile => {
+				if (profile.agreedTermsVersion != profile.latestTermsVersion) {
+					this.commonDialogsService.newTermsDialog.openDialog();
+				}
+			});
+		}
 
 		this.externalToolsManager.getToolLaunchpoints("navigation_external_launch").then(launchpoints => {
 			this.launchpoints = launchpoints.filter(lp => Boolean(lp) );
@@ -262,7 +276,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 	ngAfterViewInit() {
 		this.commonDialogsService.init(
 			this.confirmDialog,
-			this.shareSocialDialog
+			this.shareSocialDialog,
+			this.newTermsDialog
 		);
 	}
 }

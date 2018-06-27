@@ -1,0 +1,34 @@
+<div class="{{render '@l-auth'}}">
+  {{render '@title--bold' titleContext merge=true}}
+  {{render '@text--quiet' textContext merge=true}}
+  <form class="{{render '@l-form--span'}}" role="form" aria-labelledby="heading-form">
+    <fieldset role="group" aria-labelledby="heading-socialsignup">
+      <legend class="{{render '@visuallyhidden'}}" id="heading-socialsignup">Sign up with third-party social account</legend>
+      {{render '@formfield' formFieldSocialContext merge=true}}
+    </fieldset>
+    {{render '@formdivider'}}
+    <fieldset role="group" aria-labelledby="heading-badgrsignup">
+      <legend class="{{render '@visuallyhidden'}}" id="heading-badgrsignup">Sign up for a Badgr account</legend>
+      {{render '@formfield' formFieldEmailContext merge=true}}
+    </fieldset>
+    
+    
+    <label class="formcheckbox formcheckbox-is-error l-marginBottom-2x" for="terms">
+      <input name="terms" id="terms" type="checkbox">
+      <span class="formcheckbox-x-text">I have read and agree to the <a href="#">Terms of Service</a>.</span>
+      <span class="formcheckbox-x-errortext">
+        Please read and agree to the Terms of Service if you want to continue.
+        </span>
+    </label>
+
+    <label class="formcheckbox" for="news">
+      <input name="news" id="news" type="checkbox">
+      <span class="formcheckbox-x-text">Yes! I would like to receive email updates about products 
+        &amp; services, upcoming webinars, news and events from Badgr. </span>
+    </label>
+
+    <div class="l-form-x-offset {{render '@l-childrenhorizontal'}} {{render '@l-childrenhorizontal--right'}}">
+      {{render '@button' buttonSubmitContext merge=true}}
+    </div>
+  </form>
+</div>

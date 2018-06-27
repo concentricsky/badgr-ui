@@ -16,12 +16,13 @@ export class BadgeClassInstances extends StandaloneEntitySet<BadgeInstance, ApiB
 	constructor(
 		public badgeInstanceManager: BadgeInstanceManager,
 		public issuerSlug: string,
-		public badgeClassSlug: string
+		public badgeClassSlug: string,
+		public recipientQuery?: string
 	) {
 		super(
 			apiModel => new BadgeInstance(this),
 			apiModel => apiModel.json.id,
-			() => this.badgeInstanceManager.badgeInstanceApiService.listBadgeInstances(issuerSlug, badgeClassSlug)
+			() => this.badgeInstanceManager.badgeInstanceApiService.listBadgeInstances(issuerSlug, badgeClassSlug, recipientQuery)
 		);
 	}
 

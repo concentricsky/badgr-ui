@@ -5,7 +5,7 @@ module.exports = {
         context: {
           modifier: 'menuitem-is-active'
         },
-        text: 'My Badges'
+        text: 'Backpack'
       },
       {
         text: 'Collections'
