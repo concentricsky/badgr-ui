@@ -36,7 +36,7 @@ describe('SignupService', () => {
 			backend.connections.subscribe(c => connection = c);
 
 			signupModel = new SignupModel(
-				'username@email.com', 'Firstname', 'Lastname', 'password');
+				'username@email.com', 'Firstname', 'Lastname', 'password', true, true);
 			signupService.submitSignup(signupModel)
 				.subscribe(
 					(res) => { error = false },

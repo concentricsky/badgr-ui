@@ -99,8 +99,19 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 						                   [errorGroup]="passwordGroup"
 						></bg-formfield-text>
 					</fieldset>
-	
-					<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-spacebetween">
+
+					<label [class.formcheckbox-is-error]="signupForm.controls.agreedTermsService.dirty && !signupForm.controls.agreedTermsService.valid" class="formcheckbox  l-marginBottom-2x" for="terms">
+						<input name="terms" id="terms" type="checkbox" [formControl]="signupForm.controls.agreedTermsService">
+						<span class="formcheckbox-x-text">I have read and agree to the <a target="_blank" [href]="currentTheme.termsOfServiceLink ? currentTheme.termsOfServiceLink : 'http://info.badgr.io/terms-of-service.html'">Terms of Service</a>.</span>
+						<span *ngIf="signupForm.controls.agreedTermsService.dirty && !signupForm.controls.agreedTermsService.valid" class="formcheckbox-x-errortext">Please read and agree to the Terms of Service if you want to continue.</span>
+					</label>
+					
+					<label class="formcheckbox" for="news">
+						<input name="news" id="news" type="checkbox" [formControl]="signupForm.controls.marketingOptIn">
+						<span class="formcheckbox-x-text">Yes! I would like to receive email updates about products &amp; services, upcoming webinars, news and events from Badgr.</span>
+					</label>
+
+					<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-spacebetween l-childrenhorizontal-right">
 						<button class="button button-secondary"
 						        type="button"
 						        (click)="oAuthManager.cancelCurrentAuthorization()"
@@ -125,6 +136,8 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 	passwordGroup: FormGroup;
 
 	signupFinished: Promise<any>;
+
+	agreedTermsService: boolean = false;
 
 	get currentTheme() { return this.configService.currentTheme }
 
@@ -159,7 +172,9 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 				],
 				'firstName': [ '', Validators.required ],
 				'lastName': [ '', Validators.required ],
-				'passwords': this.passwordGroup
+				'passwords': this.passwordGroup,
+				'agreedTermsService': [false, Validators.requiredTrue],
+				'marketingOptIn': [false],
 			}
 		);
 	}
@@ -171,9 +186,14 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 	}
 
 	onSubmit(formState) {
-		var signupUser: SignupModel;
-		signupUser = new SignupModel(formState.username, formState.firstName,
-			formState.lastName, formState.passwords.password);
+		let signupUser = new SignupModel(
+			formState.username,
+			formState.firstName,
+			formState.lastName,
+			formState.passwords.password,
+			formState.agreedTermsService,
+			formState.marketingOptIn
+		);
 
 		this.signupFinished = new Promise((resolve, reject) => {
 

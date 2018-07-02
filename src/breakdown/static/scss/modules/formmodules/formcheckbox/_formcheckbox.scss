@@ -9,13 +9,16 @@
   }
 
   .formcheckbox-x-text {
-    align-items: center;
+    align-items: flex-start;
     color: $color-secondary;
     cursor: pointer;
     display: flex;
     font-size: $font-size-small2;
+    line-height: $line-height-small1;
     transition: color $transition-duration $transition-easing;
-
+    a {
+      padding-left: 3px;
+    }
     &::before {
       background: center center no-repeat $color-light1;
       border: 1px solid $color-dark4;
@@ -59,6 +62,21 @@
   &.formcheckbox-is-disabled {
     opacity: .3;
     pointer-events: none;
+  }
+
+  &.formcheckbox-is-error {
+    .formcheckbox-x-text::before {
+      border-color: map-get($states, error);
+    }
+    .formcheckbox-x-errortext{
+      color: map-get($states, error);
+      align-items: center;
+      display: flex;
+      font-size: $font-size-small2;
+      transition: color $transition-duration $transition-easing;
+      margin-left: 25px;
+      margin-top: $gridspacing;
+    }
   }
 
 }

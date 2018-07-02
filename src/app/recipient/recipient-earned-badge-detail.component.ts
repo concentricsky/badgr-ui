@@ -30,7 +30,7 @@ import { EventsService } from "../common/services/events.service";
 				<nav>
 					<h1 class="visuallyhidden">Breadcrumbs</h1>
 					<ul class="breadcrumb">
-						<li><a [routerLink]="[recipient]">My Badges</a></li>
+						<li><a [routerLink]="[recipient]">Backpack</a></li>
 						<li class="breadcrumb-x-current">{{ badge?.badgeClass?.name || 'Loading...' }}</li>
 					</ul>
 				</nav>
@@ -271,7 +271,7 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 	}
 
 	private updateData(){
-		this.title.setTitle("My Badges - Badgr - " + this.badge.badgeClass.name);
+		this.title.setTitle("Backpack - Badgr - " + this.badge.badgeClass.name);
 
 		this.badge.markAccepted();
 

@@ -1,0 +1,28 @@
+<dialog class="{{render '@dialog'}} {{render '@dialog--titled'}} {{render '@wrap'}} {{render '@wrap--light'}}">
+  <header class="dialog-x-titlebar">
+		<h1>Updated Terms of Service</h1>
+		<button class="dialog-x-close"><span class="icon icon-notext icon-close">Close</span></button>
+	</header>
+  <div class="dialog-x-content">
+    <p>We’ve updated our <a href="#">Terms of Service</a>. </p>
+    <p>Here we’ll summarize the reasons. E.g. to make them clearer 
+      and to address some new privacy laws in Europe. Check the box 
+      below to let us know you’ve read and agree to the updates. </p>
+  
+
+    <label class="formcheckbox formcheckbox-is-error l-marginBottom-2x" for="terms">
+      <input name="terms" id="terms" type="checkbox">
+      <span class="formcheckbox-x-text">I have read and agree to the <a href="#">Terms of Service</a>.</span>
+      <span class="formcheckbox-x-errortext">
+        Please read and agree to the Terms of Service if you want to continue.
+        </span>
+    </label>
+
+    <div class="l-childrenhorizontal l-childrenhorizontal-right">
+      <a href="#">Need Help?</a>
+      <button class="button">Continue</button>
+    </div>
+
+  </div>
+</dialog>
+{{render '@preview--scripts-opendialog'}}

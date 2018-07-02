@@ -30,6 +30,16 @@
 
 }
 
+.buttonauth-microsoft {
+  background: #fff;
+  border: 1px solid #e1e0e5;
+
+  &::after {
+    background-image: url('#{$base-path}images/buttonauth-microsoft.svg');
+  }
+
+}
+
 .buttonauth-google {
   background: #fff;
   border: 1px solid #e1e0e5;

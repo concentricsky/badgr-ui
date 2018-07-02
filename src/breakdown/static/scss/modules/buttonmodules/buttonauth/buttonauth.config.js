@@ -16,7 +16,7 @@ module.exports = {
     {
       context: {
         modifier: 'buttonauth-google',
-        text: 'Facebook'
+        text: 'Google'
       },
       name: 'google',
       preview: '@preview'
@@ -44,6 +44,14 @@ module.exports = {
         text: 'Twitter'
       },
       name: 'twitter',
+      preview: '@preview'
+    },
+    {
+      context: {
+        modifier: 'buttonauth-microsoft',
+        text: 'Microsoft'
+      },
+      name: 'microsoft',
       preview: '@preview'
     }
   ]

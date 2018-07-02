@@ -14,6 +14,7 @@ import { RecipientBadgeManager } from "./services/recipient-badge-manager.servic
 import { ApiRecipientBadgeIssuer } from "./models/recipient-badge-api.model";
 import { RecipientBadgeInstance } from "./models/recipient-badge.model";
 import { badgeShareDialogOptionsFor } from "./recipient-earned-badge-detail.component";
+import {UserProfileManager} from "../common/services/user-profile-manager.service";
 
 type BadgeDispay = "grid" | "list" ;
 
@@ -26,7 +27,7 @@ type BadgeDispay = "grid" | "list" ;
 			<header class="wrap wrap-light l-containerhorizontal l-heading">
 				<div class="heading">
 					<div class="heading-x-text">
-						<h1>My Badges <span *ngIf="!! allBadges">{{ allBadges.length }} {{ allBadges.length == 1 ? "Badge" : "Badges" }}</span></h1>
+						<h1>Backpack <span *ngIf="!! allBadges">{{ allBadges.length }} {{ allBadges.length == 1 ? "Badge" : "Badges" }}</span></h1>
 					</div>
 					<div class="heading-x-actions">
 						<a class="button button-major" (click)="addBadge()" [disabled-when-requesting]="true">Add Badge</a>
@@ -254,11 +255,12 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 		private title: Title,
 		private dialogService: CommonDialogsService,
 		private messageService: MessageService,
-		private recipientBadgeManager: RecipientBadgeManager
+		private recipientBadgeManager: RecipientBadgeManager,
+		private profileManager: UserProfileManager
 	) {
 		super(router, route, sessionService);
 
-		title.setTitle("My Badges - Badgr");
+		title.setTitle("Backpack - Badgr");
 
 		this.badgesLoaded = this.recipientBadgeManager.recipientBadgeList.loadedPromise
 			.catch(e => this.messageService.reportAndThrowError("Failed to load your badges", e));
@@ -266,6 +268,15 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 		this.recipientBadgeManager.recipientBadgeList.changed$.subscribe(
 			badges => this.updateBadges(badges.entities)
 		);
+
+		if (sessionService.isLoggedIn) {
+			// force a refresh of the userProfileSet now that we are authenticated
+			profileManager.userProfileSet.updateList().then(p => {
+				if (profileManager.userProfile.agreedTermsVersion != profileManager.userProfile.latestTermsVersion) {
+					dialogService.newTermsDialog.openDialog();
+				}
+			})
+		}
 
 		this.restoreDisplayState();
 	}

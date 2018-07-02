@@ -79,11 +79,19 @@ export class SessionService {
 	}
 
 	initiateUnauthenticatedExternalAuth(provider: SocialAccountProviderInfo) {
-		window.location.href = `${this.baseUrl}/account/sociallogin?provider=${encodeURIComponent(provider.slug)}`;
+		var auth_provider = provider.slug + ""
+		if(provider.slug === "microsoft"){
+				auth_provider = "azure"
+		}
+		window.location.href = `${this.baseUrl}/account/sociallogin?provider=${encodeURIComponent(auth_provider)}`;
 	}
 
 	initiateAuthenticatedExternalAuth(provider: SocialAccountProviderInfo) {
-		window.location.href = `${this.baseUrl}/account/sociallogin?provider=${encodeURIComponent(provider.slug)}&authToken=${this.currentAuthToken.token}`;
+		var auth_provider = provider.slug + ""
+		if(provider.slug === "microsoft"){
+				auth_provider = "azure"
+		}
+		window.location.href = `${this.baseUrl}/account/sociallogin?provider=${encodeURIComponent(auth_provider)}&authToken=${this.currentAuthToken.token}`;
 	}
 
 	logout(): void {

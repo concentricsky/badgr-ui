@@ -21,7 +21,7 @@ module.exports = {
       labelElement: 'p',
       labelNote: false,
       inputAuthButtons: true,
-      inputText: false
+      inputText: false,
     },
     titleContext: {
       id: 'heading-form',

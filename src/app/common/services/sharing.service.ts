@@ -59,7 +59,7 @@ export class SharingService {
 		this.reportShare(objectType, objectIdUrl, "Twitter", shareUrl);
 
 		window.open(
-			`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareUrl)}`,
+			`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareUrl)}%20I%20earned%20a%20badge%20via%20Badgr.`,
 			"_blank",
 			"width=550,height=274"
 		);

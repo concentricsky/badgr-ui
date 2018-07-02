@@ -1,7 +1,7 @@
 module.exports = {
   context: {
     buttonSubmitContext: {
-      text: 'Sign In',
+      text: 'Create Account',
       type: 'submit'
     },
     formDividerContext: {
@@ -16,31 +16,22 @@ module.exports = {
         type: 'email'
       }
     },
-    formFieldPasswordContext: {
-      id: 'password',
-      label: 'Password',
-      labelNote: '<a href="#">Forgot Password?</a>',
-      inputText: {
-        id: 'password',
-        type: 'password'
-      }
-    },
     formFieldSocialContext: {
       label: 'Sign In With',
       labelElement: 'p',
       labelNote: false,
       inputAuthButtons: true,
-      inputText: false,
+      inputText: false
     },
     titleContext: {
       id: 'heading-form',
-      text: 'Welcome to Badgr!',
+      text: 'Create a Badgr Account',
       xSelector: 'l-auth-x-title'
     },
     textContext: {
-      text: 'Choose your sign in method to get started.',
+      text: 'Already have an account? <a href="#">Log In</a>.',
       xSelector: 'l-auth-x-text'
     }
   },
-  label: 'Sign In'
+  label: 'Sign Up - GDPR'
 };

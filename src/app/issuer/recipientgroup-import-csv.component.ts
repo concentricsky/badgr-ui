@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { SessionService } from "../common/services/session.service";
 import { MessageService } from "../common/services/message.service";
 import { Title } from "@angular/platform-browser";
+import { Issuer } from "./models/issuer.model";
+import { IssuerManager } from "./services/issuer-manager.service";
 import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
 import { RecipientGroupManager } from "./services/recipientgroup-manager.service";
 import { RecipientGroup } from "./models/recipientgroup.model";
@@ -20,7 +22,7 @@ type ButtonAction = () =>void;
 @Component({
 	selector: 'Recipientgroup-import-csv',
 	template: `
-			<main *bgAwaitPromises="[recipientGroupLoaded]">
+			<main *bgAwaitPromises="[issuerLoaded, recipientGroupLoaded]">
 			<form-message></form-message>
 			<!-- Breadcrumb -->
 			<header class="wrap wrap-light l-containerhorizontal l-heading">
@@ -28,7 +30,7 @@ type ButtonAction = () =>void;
 					<h1 class="visuallyhidden">Breadcrumbs</h1>
 					<ul class="breadcrumb">
 						<li><a [routerLink]="['/issuer']">Issuers</a></li>
-						<li *ngIf="issuer"><a [routerLink]="['/issuer/issuers', issuerSlug]">{{ issuer}}</a></li>
+						<li *ngIf="issuer"><a [routerLink]="['/issuer/issuers', issuerSlug]">{{ issuer.name }}</a></li>
 						<li *ngIf="issuer && recipientGroup"><a [routerLink]="['/issuer/issuers', issuerSlug, 'recipient-groups', recipientGroup.slug]">Group: {{ recipientGroup.name }}</a></li>
 						<li class="breadcrumb-x-current">Import CSV</li>
 					</ul>
@@ -272,8 +274,9 @@ export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent 
 	importErrorForm:FormGroup;
 	importPreviewData:RecipientGroupImportPreviewData;
 	invalidRowsTransformed = Array<RecipientGroupImportData>();
-	issuer:string;
+	issuer: Issuer;
 	rawCsv:string = null;
+	issuerLoaded: Promise<any>;
 	recipientGroupLoaded: Promise<any>;
 	recipientGroup: RecipientGroup;
 	rowIsLongerThanHeader: boolean = false;
@@ -288,6 +291,7 @@ export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent 
 		protected loginService: SessionService,
 		protected messageService: MessageService,
 		protected recipientGroupManager: RecipientGroupManager,
+		protected issuerManager: IssuerManager,
 		protected route: ActivatedRoute,
 		protected router: Router,
 		protected title: Title
@@ -298,7 +302,12 @@ export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent 
 		title.setTitle("Recipient Group CSV upload - Badgr");
 
 		this.activateViewState("instructions");
-		this.issuer = this.issuerSlug
+
+		this.issuerLoaded = issuerManager.issuerBySlug(this.issuerSlug).then(
+			issuer => this.issuer = issuer,
+			error => messageService.reportAndThrowError(`Failed to load issuer ${this.issuerSlug}`, error)
+		);
+
 		this.recipientGroupLoaded = recipientGroupManager.recipientGroupSummaryFor(
 			this.issuerSlug,
 			this.groupSlug

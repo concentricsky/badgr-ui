@@ -134,13 +134,13 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 						>Twitter
 						</button>
 					</div>
-					<div *ngIf="displayShareServiceType('Portfolium')">
-						<button class="buttonauth buttonauth-portfolium"
-						        type="button"
-						        (click)="openPortfoliumWindow()"
-						>Twitter
-						</button>
-					</div>
+					<!--<div *ngIf="displayShareServiceType('Portfolium')">-->
+						<!--<button class="buttonauth buttonauth-portfolium"-->
+						        <!--type="button"-->
+						        <!--(click)="openPortfoliumWindow()"-->
+						<!--&gt;-->
+						<!--</button>-->
+					<!--</div>-->
 				</div>
 			</div>
 
@@ -161,7 +161,7 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 					</div>
 				</div>
 				
-				<div class="l-sharepane-x-preview wrap wrap-light4">
+				<div *ngIf="options.showRecipientOptions" class="l-sharepane-x-preview wrap wrap-light4">
 					<p class="label-formfield">Badge Options</p>
 					<div class="l-sharepane-x-childrenhorizontal-marginbottom l-marginTop  l-marginTop-2x ">
 
@@ -260,6 +260,8 @@ export class ShareSocialDialog extends BaseDialog {
 		this.currentSafeEmbedHtml = null;
 
 		this.currentEmbedHtml; // trigger html generation before rendering
+
+		this.includeRecipientIdentifier = false;
 
 		return new Promise<void>((resolve, reject) => {
 			this.resolveFunc = resolve;

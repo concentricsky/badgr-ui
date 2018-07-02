@@ -38,10 +38,12 @@ export class BadgeInstanceApiService extends BaseHttpApiService {
 			.then(r => r.json());
 	}
 
-	listBadgeInstances(issuerSlug: string, badgeSlug: string): Promise<ApiBadgeInstance[]> {
-		return this
-			.get(`/v1/issuer/issuers/${issuerSlug}/badges/${badgeSlug}/assertions`)
-			.then(r=>r.json());
+	listBadgeInstances(issuerSlug: string, badgeSlug: string, query?: string, num: number = 100): Promise<ApiBadgeInstance[]> {
+		let url = `/v1/issuer/issuers/${issuerSlug}/badges/${badgeSlug}/assertions?num=${num}`;
+		if (query) {
+			url += `&recipient=${query}`
+		}
+		return this.get(url).then(r=>r.json());
 	}
 
 	revokeBadgeInstance(

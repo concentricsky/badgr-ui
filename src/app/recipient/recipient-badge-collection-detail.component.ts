@@ -84,7 +84,7 @@ import { addQueryParamsToUrl } from "../common/util/url-util";
 							<tr *ngFor="let entry of collection.badgeEntries">
 								<th>
 									<a class="stack stack-list"
-										 [routerLink]="[recipient, entry.badge.slug]">
+										 [routerLink]="['/recipient/earned-badge', entry.badge.slug]">
 										<span class="stack-x-image">
 											<img [loaded-src]="entry.badge.image"
 											     [loading-src]="badgeLoadingImageUrl"
