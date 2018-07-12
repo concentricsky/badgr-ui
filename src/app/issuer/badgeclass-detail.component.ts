@@ -167,7 +167,7 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 						<div *ngIf="hasNextPage() || hasPrevPage()" class="">
 							<nav class="pagination u-margin-bottom7x">
 								<h2 class="visuallyhidden">Pagination</h2>
-								<div class="pagination-x-pages l-flex l-flex-justifybetween">
+								<div class="l-marginTop l-marginTop-2x l-childrenhorizontal l-childrenhorizontal-spacebetween">   
 									<button [class.is-disabled]="!hasPrevPage()" [attr.disabled]="hasPrevPage() ? null : 'disabled'" class="page" (click)="clickPrevPage()">Previous</button>
 									<button [class.is-disabled]="!hasNextPage()" class="page" (click)="clickNextPage()">Next</button>
 								</div>

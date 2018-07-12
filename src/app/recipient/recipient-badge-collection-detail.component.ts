@@ -251,7 +251,7 @@ export function shareCollectionDialogOptionsFor(collection: RecipientBadgeCollec
 		shareIdUrl: collection.url,
 		shareSummary: collection.description,
 		shareEndpoint: "shareArticle",
-		excludeServiceTypes: ["Portfolium"],
+		excludeServiceTypes: ["Pinterest"],
 
 		embedOptions: [
 			{

@@ -134,13 +134,13 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 						>Twitter
 						</button>
 					</div>
-					<!--<div *ngIf="displayShareServiceType('Portfolium')">-->
-						<!--<button class="buttonauth buttonauth-portfolium"-->
-						        <!--type="button"-->
-						        <!--(click)="openPortfoliumWindow()"-->
-						<!--&gt;-->
-						<!--</button>-->
-					<!--</div>-->
+					<div *ngIf="displayShareServiceType('Pinterest')">
+						<button class="buttonauth buttonauth-pinterest"
+						        type="button"
+						        (click)="openPinterestWindow()"
+						>
+						</button>
+					</div>
 				</div>
 			</div>
 
@@ -304,11 +304,13 @@ export class ShareSocialDialog extends BaseDialog {
 		);
 	}
 
-	openPortfoliumWindow() {
-		this.sharingService.shareWithPortfolium(
+	openPinterestWindow() {
+		this.sharingService.shareWithPinterest(
 			this.options.shareObjectType,
 			this.options.shareIdUrl,
-			this.currentShareUrl
+			this.currentShareUrl,
+			this.options.imageUrl,
+			this.options.shareTitle,
 		);
 	}
 
@@ -465,6 +467,7 @@ export class ShareSocialDialog extends BaseDialog {
 export interface ShareSocialDialogOptions {
 	title: string;
 	shareObjectType: SharedObjectType;
+	imageUrl?: string;
 	shareUrl: string;
 	shareIdUrl: string;
 	shareTitle: string;

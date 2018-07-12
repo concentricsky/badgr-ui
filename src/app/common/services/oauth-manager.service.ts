@@ -9,6 +9,7 @@ import { flatten } from "../util/array-reducers";
 import { StandaloneEntitySet } from "../model/managed-entity-set";
 import { OAuth2AppAuthorization } from "../model/oauth.model";
 import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
+import {CommonDialogsService} from "./common-dialogs.service";
 
 const OAUTH_STATE_STORAGE_NAME = "oauthState";
 
@@ -52,7 +53,8 @@ export class OAuthManager {
 	constructor(
 		public oauthApi: OAuthApiService,
 		private sessionService: SessionService,
-		private commonEntityManager: CommonEntityManager
+		private commonEntityManager: CommonEntityManager,
+		private commonDialogsService: CommonDialogsService
 	) {
 		this._oAuthState = window.localStorage[OAUTH_STATE_STORAGE_NAME] && JSON.parse(window.localStorage[OAUTH_STATE_STORAGE_NAME]);
 	}
@@ -129,7 +131,17 @@ export class OAuthManager {
 
 	private performRedirect(successUrl: string) {
 		this.clearPersistentAuthorization();
-		window.location.href = successUrl;
+		const do_redirect = () => {
+			window.location.href = successUrl;
+		};
+
+		if (this.commonDialogsService.newTermsDialog.isOpen) {
+			this.commonDialogsService.newTermsDialog.agreedPromise.then(() => {
+				do_redirect();
+			})
+		} else {
+			do_redirect();
+		}
 	}
 
 	private clearPersistentAuthorization() {

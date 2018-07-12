@@ -65,15 +65,17 @@ export class SharingService {
 		);
 	}
 
-	shareWithPortfolium(
+	shareWithPinterest(
 		objectType: SharedObjectType,
 		objectIdUrl: string,
-		shareUrl: string
+		shareUrl: string,
+		imageUrl: string,
+		summary?: string
 	) {
-		this.reportShare(objectType, objectIdUrl, "Portfolium", shareUrl);
-
+		this.reportShare(objectType, objectIdUrl, "Pinterest", shareUrl);
+		
 		window.open(
-			`https://portfolium.com/share/badge?source=Badgr&u=${encodeURIComponent(shareUrl)}`,
+			`http://www.pinterest.com/pin/create/button/?url=${encodeURIComponent(shareUrl)}&media=${encodeURIComponent(imageUrl)}&description=${encodeURIComponent(summary)}`,
 			"_blank"
 		);
 	}
@@ -101,5 +103,5 @@ export class SharingService {
 }
 
 export type SharedObjectType = "BadgeInstance" | "BadgeCollection";
-export type ShareServiceType = "Facebook" | "LinkedIn" | "Twitter" | "Portfolium";
+export type ShareServiceType = "Facebook" | "LinkedIn" | "Twitter" | "Pinterest";
 export type ShareEndPoint = "shareArticle" | "certification";

@@ -78,10 +78,10 @@
 
 }
 
-.buttonauth-portfolium {
-  background: #1B64AC;
+.buttonauth-pinterest {
+  background: #BD081C;
 
   &::after {
-    background-image: url('#{$base-path}images/buttonauth-portfolium.svg');
+    background-image: url('#{$base-path}images/buttonauth-pinterest.svg');
   }
 }

@@ -37,6 +37,10 @@ export class NewTermsDialog extends BaseDialog {
 
 	agreedToTerms: boolean = false;
 
+	resolveFunc: () => void;
+	rejectFunc: () => void;
+	_agreed_promise: Promise<void> = null;
+
 	hasSubmitted: boolean = false;
 
 	profile: UserProfile;
@@ -51,6 +55,16 @@ export class NewTermsDialog extends BaseDialog {
 		this.profileManager.userProfilePromise.then(profile => {
 			this.profile = profile;
 		})
+	}
+
+	get agreedPromise():Promise<void> {
+		if (!this._agreed_promise) {
+				this._agreed_promise = new Promise((resolve, reject) => {
+					this.resolveFunc = resolve;
+					this.rejectFunc = reject;
+				});
+		}
+		return this._agreed_promise;
 	}
 
 	get termsOfServiceLink() {
@@ -72,6 +86,9 @@ export class NewTermsDialog extends BaseDialog {
 			let profile = this.profile ? this.profile : this.profileManager.userProfile;
 			profile.agreeToLatestTerms().then(_ => {
 				this.closeDialog();
+				if (this.resolveFunc) {
+					this.resolveFunc();
+				}
 			});
 		}
 
