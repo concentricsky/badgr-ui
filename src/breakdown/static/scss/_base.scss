@@ -110,8 +110,6 @@ $box-shadow-secondary: 0 0 $gridspacing * 2 0 rgba($color-dark1, .18), 0  $grids
   src: url('#{$base-path}fonts/opensans-semibolditalic-webfont.woff2') format('woff2'), url('#{$base-path}fonts/opensans-semibolditalic-webfont.woff') format('woff');
 }
 
-$font-family: 'Open Sans', sans-serif;
-
 $font-size-small2: 12px;
 $font-size-small1: 14px;
 $font-size: 16px;
@@ -178,6 +176,17 @@ $transition-easing: ease-out;
 // New Label
 @mixin newlabel {
   background-color: map-get($states, pending);
+  border-radius: $border-radius;
+  color: $color-light1;
+  font-size: $font-size-small2;
+  font-weight: bold;
+  line-height: 1;
+  padding: 5px 10px;
+  text-transform: uppercase;
+}
+
+@mixin expiredlabel {
+  background-color: $color-dark2;
   border-radius: $border-radius;
   color: $color-light1;
   font-size: $font-size-small2;

@@ -1,0 +1,13 @@
+.status {
+  box-sizing: border-box;
+  padding: $gridspacing;
+  display: inline-block;
+}
+
+.status-new {
+  @include newlabel;
+}
+
+.status-expired {
+  @include expiredlabel;
+}
