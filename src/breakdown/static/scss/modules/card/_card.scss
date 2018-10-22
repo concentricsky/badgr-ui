@@ -14,11 +14,10 @@
   word-break: media-word;
 
   .card-x-label {
-    @include newlabel;
-    border-bottom-left-radius: 0;
     border-top-left-radius: 0;
-    bottom: $gridspacing * 7;
-    left: 0;
+    border-bottom-right-radius: 0;
+    top: 0px;
+    right: 0px;
     position: absolute;
     z-index: $z-index-med;
   }

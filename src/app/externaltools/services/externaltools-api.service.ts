@@ -22,7 +22,9 @@ export class ExternalToolsApiService extends BaseHttpApiService {
 	}
 
 	listTools(): Promise<ApiExternalTool[]> {
-		return this.get(`/v1/externaltools/`).then(r => r.json())
+		return this.sessionService.isLoggedIn
+			? this.get(`/v1/externaltools/`).then(r => r.json())
+			: Promise.resolve([]);
 	}
 
 	getLaunchToolInfo(launchpoint: ApiExternalToolLaunchpoint, contextId: string): Promise<ApiExternalToolLaunchInfo> {

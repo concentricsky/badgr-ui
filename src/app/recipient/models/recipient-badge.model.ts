@@ -9,12 +9,18 @@ import { LinkedEntitySet } from "../../common/model/linked-entity-set";
 import { RecipientBadgeCollection } from "./recipient-badge-collection.model";
 import { RecipientBadgeCollectionRef } from "./recipient-badge-collection-api.model";
 
+type BadgeMostRelevantStatusType = "new" | "expired";
 
 export class RecipientBadgeInstance extends ManagedEntity<ApiRecipientBadgeInstance, RecipientBadgeInstanceRef> {
 	/**
 	 * Cached copy of the immutable issueDate for optimization
 	 */
 	_issueDate: Date;
+
+	/**
+	 * Cached copy of the immutable expiresDate for optimization
+	 */
+	_expiresDate: Date | null = null;
 
 	/**
 	 * List of collection that we've modified to either include or exclude ourselves from.
@@ -77,9 +83,22 @@ export class RecipientBadgeInstance extends ManagedEntity<ApiRecipientBadgeInsta
 	get narrative(): string { return this.apiModel.narrative }
 	get evidence_items(): any[] { return this.apiModel.evidence_items }
 
+	get expiresDate(): Date { return this._expiresDate ? this._expiresDate : (this._expiresDate = this.apiModel.expiresOn && new Date(this.apiModel.expiresOn) || null) }
+
 	get shareUrl(): string { return this.apiModel.shareUrl }
 
 	get isNew(): boolean { return this.apiModel.acceptance === "Unaccepted" }
+	
+	get mostRelevantStatus(): BadgeMostRelevantStatusType | null {
+		if (this.expiresDate && this.expiresDate < new Date()) { 
+			return "expired"
+		} else if (this.apiModel.acceptance === "Unaccepted") {
+			return "new"
+		} else {
+			return null;
+		}
+	}
+	
 
 	markAccepted(): Promise<this> {
 		if (this.isNew) {

@@ -82,7 +82,7 @@ type BadgeDispay = "grid" | "list" ;
 										<div *ngFor="let badgeResult of badgeResults">
 											<article class="card card-largeimage">
 												<a class="card-x-main" [routerLink]="['../earned-badge', badgeResult.badge.slug]">
-													<p class="card-x-label" *ngIf="badgeResult.badge.isNew">New</p>
+													<div class="card-x-label status status-{{badgeResult.badge.mostRelevantStatus}}" *ngIf="badgeResult.badge.mostRelevantStatus">{{badgeResult.badge.mostRelevantStatus}}</div>
 													<div class="card-x-image">
 														<img [loaded-src]="badgeResult.badge.image"
 														     [loading-src]="badgeLoadingImageUrl"
@@ -116,7 +116,7 @@ type BadgeDispay = "grid" | "list" ;
 											<div *ngFor="let badge of issuerGroup.badges">
 												<article class="card card-largeimage">
 													<a class="card-x-main" [routerLink]="['../earned-badge', badge.slug]">
-														<p class="card-x-label" *ngIf="badge.isNew">New</p>
+														<div class="card-x-label status status-{{badgeResult.badge.mostRelevantStatus}}" *ngIf="badgeResult.badge.mostRelevantStatus">{{badgeResult.badge.mostRelevantStatus}}</div>
 														<div class="card-x-image">
 															<div class="badge badge-flat">
 																<img [loaded-src]="badge.image"
@@ -174,7 +174,9 @@ type BadgeDispay = "grid" | "list" ;
 														     [error-src]="badgeFailedImageUrl"
 					                       width="40" />
 													</span>
-													<span *ngIf="badge.isNew" class="stack-x-new">New</span> 
+													<span *ngIf="badge.mostRelevantStatus" class="status status-{{badge.mostRelevantStatus}} u-margin-right1x">
+														{{badge.mostRelevantStatus}}
+													</span> 
 													<span class="stack-x-text">
 														<span class="stack-x-title">{{ badge.badgeClass.name }}</span>
 													</span>

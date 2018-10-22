@@ -1,13 +1,19 @@
 .status {
+  border-radius: $border-radius;
   box-sizing: border-box;
-  padding: $gridspacing;
+  color: $color-light1;
   display: inline-block;
+  font-size: $font-size-small2;
+  font-weight: bold;
+  line-height: 1;
+  padding: 5px 10px;
+  text-transform: uppercase;
 }
 
 .status-new {
-  @include newlabel;
+  background-color: map-get($states, pending);
 }
 
 .status-expired {
-  @include expiredlabel;
+  background-color: $color-dark2;
 }
