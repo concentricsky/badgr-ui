@@ -1,0 +1,25 @@
+@each $name, $size in $spacing {
+  .u-margin-all#{$name} {
+    margin: $gridspacing * $size;
+  }
+  .u-margin-left#{$name} {
+    margin-left: $gridspacing * $size;
+  }
+  .u-margin-right#{$name} {
+    margin-right: $gridspacing * $size;
+  }
+  .u-margin-bottom#{$name} {
+    margin-bottom: $gridspacing * $size;
+  }
+  .u-margin-top#{$name} {
+    margin-top: $gridspacing * $size;
+  }
+  .u-margin-h#{$name} {
+    margin-left: $gridspacing * $size;
+    margin-right: $gridspacing * $size;
+  }
+  .u-margin-v#{$name} {
+    margin-top: $gridspacing * $size;
+    margin-bottom: $gridspacing * $size;
+  }
+}
