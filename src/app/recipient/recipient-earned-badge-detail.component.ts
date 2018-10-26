@@ -40,7 +40,10 @@ import { EventsService } from "../common/services/events.service";
 							<img [loaded-src]="badge.image"
 							     [loading-src]="badgeLoadingImageUrl"
 							     [error-src]="badgeFailedImageUrl"
-				           width="200" />
+						   width="200" />
+						   <div class="u-margin-v2x status status-{{badge.mostRelevantStatus}}" *ngIf="badge.mostRelevantStatus">
+								{{badge.mostRelevantStatus}}
+							</div>
 						</div>
 					</div>
 					<div class="heading-x-text">
@@ -51,7 +54,7 @@ import { EventsService } from "../common/services/events.service";
 								<img [loaded-src]="badge.badgeClass?.issuer?.image"
 	                 [loading-src]="issuerImagePlacholderUrl"
 	                 [error-src]="issuerImagePlacholderUrl"
-	                 width="80" />
+					 width="80" />
 							</div>
 							<div class="stack-x-text">
 								<h2>{{ badge.badgeClass.issuer.name }}</h2>
@@ -59,7 +62,7 @@ import { EventsService } from "../common/services/events.service";
 							</div>
 						</a>
 						<p><small>Awarded <time [date]="badge?.issueDate" format="mediumDate"></time> to {{ badge.recipientEmail }}</small></p>
-
+						<p *ngIf="badge.expiresDate"><small>Expires <time [date]="badge?.expiresDate" format="mediumDate"></time></small></p>
 						<p style="font-size: 16px">{{ badge.badgeClass.description }}</p>
 
 						<!-- criteria -->
