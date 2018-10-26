@@ -112,6 +112,9 @@ export interface RecipientBadgeSelectionDialogSettings {
 													<h1>{{ badge.badgeClass.name }}</h1>
 													<small>{{ badge.badgeClass.issuer?.name || "Unknown Issuer" }}</small>
 												</span>
+												<span *ngIf="badge.mostRelevantStatus" class="status status-{{badge.mostRelevantStatus}}">
+													{{badge.mostRelevantStatus}}
+												</span> 
 											</label>
 										</td>
 										<td class="table-x-issued table-x-padded"><span class="hidden hidden-is-tablet">{{ badge.issueDate | date: 'longDate'}}</span></td>
