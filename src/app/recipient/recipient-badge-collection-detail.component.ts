@@ -94,7 +94,9 @@ import { addQueryParamsToUrl } from "../common/util/url-util";
 										<span class="stack-x-text">
 											<span class="stack-x-title">
 												{{ entry.badge.badgeClass.name }}
-												<span class="u-margin-left1x status status-{{entry.badge.badgeClass.mostRelevantStatus}}">{{entry.badge.badgeClass.mostRelevantStatus}}</span>
+												<span *ngIf="entry.badge.mostRelevantStatus" class="status status-{{entry.badge.mostRelevantStatus}}">
+													{{entry.badge.mostRelevantStatus}}
+												</span> 
 											</span>
 										</span>
 										
@@ -145,9 +147,9 @@ export class RecipientBadgeCollectionDetailComponent extends BaseAuthenticatedRo
 		title.setTitle("Collections - Badgr");
 
 		this.collectionLoadedPromise = Promise.all([
-				this.recipientBadgeCollectionManager.recipientBadgeCollectionList.loadedPromise,
-				this.recipientBadgeManager.recipientBadgeList.loadedPromise
-			])
+			this.recipientBadgeCollectionManager.recipientBadgeCollectionList.loadedPromise,
+			this.recipientBadgeManager.recipientBadgeList.loadedPromise
+		])
 			.then(([list]) => this.collection = list.entityForSlug(this.collectionSlug))
 			.then(collection => collection.badgesPromise)
 			.catch(err => this.messageService.reportHandledError(`Failed to load collection ${this.collectionSlug}`));
@@ -167,7 +169,7 @@ export class RecipientBadgeCollectionDetailComponent extends BaseAuthenticatedRo
 			restrictToIssuerId: null,
 			omittedCollection: this.collection.badges
 		}).then(selectedBadges => {
-			let  badgeCollection = selectedBadges.concat(this.collection.badges)
+			let badgeCollection = selectedBadges.concat(this.collection.badges)
 
 			badgeCollection.forEach(badge => badge.markAccepted());
 
@@ -195,7 +197,7 @@ export class RecipientBadgeCollectionDetailComponent extends BaseAuthenticatedRo
 					error => this.messageService.reportHandledError(`Failed to delete collection`, error)
 				);
 			},
-			() => {}
+			() => { }
 		)
 	}
 
@@ -213,12 +215,12 @@ export class RecipientBadgeCollectionDetailComponent extends BaseAuthenticatedRo
 					failure => this.messageService.reportHandledError(`Failed to remove badge ${entry.badge.badgeClass.name} from collection ${this.collection.name}`, failure)
 				);
 			},
-			() => {}
+			() => { }
 		)
 	}
 
-	get badgesInCollectionCount():string{
-		return `${this.collection.badgeEntries.length } ${this.collection.badgeEntries.length == 1 ? 'Badge' : 'Badges'}`
+	get badgesInCollectionCount(): string {
+		return `${this.collection.badgeEntries.length} ${this.collection.badgeEntries.length == 1 ? 'Badge' : 'Badges'}`
 	}
 
 	get collectionPublished() {

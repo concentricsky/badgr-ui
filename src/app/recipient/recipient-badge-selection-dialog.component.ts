@@ -60,6 +60,7 @@ export interface RecipientBadgeSelectionDialogSettings {
 						</thead>
 
 						<tbody>
+							<!-- Empty state - no badges -->
 							<tr *ngIf="badgeResults.length < 1">
 								<td class="table-x-padded">
 									<ng-template [ngIf]="hasMultipleIssuers">
@@ -71,7 +72,7 @@ export interface RecipientBadgeSelectionDialogSettings {
 								</td>
 								<td class="table-x-padded"></td>
 							</tr>
-
+							<!-- Badges grouped by Issuer -->
 							<ng-template [ngIf]="groupByIssuer && hasMultipleIssuers">
 								<ng-template ngFor let-issuerResults [ngForOf]="issuerResults">
 									<tr>
@@ -118,7 +119,7 @@ export interface RecipientBadgeSelectionDialogSettings {
 								</ng-template>
 							</ng-template>
 							
-							
+							<!-- Badges not grouped by Issuer -->
 							<ng-template [ngIf]="! groupByIssuer || ! hasMultipleIssuers">
 								<tr *ngFor="let badgeResult of badgeResults">
 									<td class="table-x-input">
@@ -155,7 +156,10 @@ export interface RecipientBadgeSelectionDialogSettings {
 											<span class="stack-x-text">
 							                  <h1>{{ badgeResult.badge.badgeClass.name }}</h1>
 								                <small>{{ badgeResult.issuer?.name || "Unknown Issuer" }}</small>
-							                </span>
+											</span>
+											<span *ngIf="badgeResult.badge.mostRelevantStatus" class="status status-{{badgeResult.badge.mostRelevantStatus}}">
+												{{badgeResult.badge.mostRelevantStatus}}
+											</span> 
 										</label>
 									</td>
 									

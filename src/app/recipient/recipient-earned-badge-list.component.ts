@@ -82,7 +82,9 @@ type BadgeDispay = "grid" | "list" ;
 										<div *ngFor="let badgeResult of badgeResults">
 											<article class="card card-largeimage">
 												<a class="card-x-main" [routerLink]="['../earned-badge', badgeResult.badge.slug]">
-													<div class="card-x-label status status-{{badgeResult.badge.mostRelevantStatus}}" *ngIf="badgeResult.badge.mostRelevantStatus">{{badgeResult.badge.mostRelevantStatus}}</div>
+													<div class="card-x-label status status-{{badgeResult.badge.mostRelevantStatus}}" *ngIf="badgeResult.badge.mostRelevantStatus">
+														{{badgeResult.badge.mostRelevantStatus}}
+													</div>
 													<div class="card-x-image">
 														<img [loaded-src]="badgeResult.badge.image"
 														     [loading-src]="badgeLoadingImageUrl"
