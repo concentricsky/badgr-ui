@@ -92,8 +92,12 @@ import { addQueryParamsToUrl } from "../common/util/url-util";
 											     width="40" />
 										</span>
 										<span class="stack-x-text">
-											<span class="stack-x-title">{{ entry.badge.badgeClass.name }}</span>
+											<span class="stack-x-title">
+												{{ entry.badge.badgeClass.name }}
+												<span class="u-margin-left1x status status-{{entry.badge.badgeClass.mostRelevantStatus}}">{{entry.badge.badgeClass.mostRelevantStatus}}</span>
+											</span>
 										</span>
+										
 									</a>
 								</th>
 								<td class="hidden hidden-is-desktop" >{{ entry.badge.badgeClass.issuer.name }}</td>

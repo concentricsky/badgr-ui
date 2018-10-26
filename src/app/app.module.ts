@@ -47,7 +47,7 @@ const ROUTE_CONFIG: Routes = [
 	{
 		path: 'recipient',
 		loadChildren: './recipient/recipient.module#RecipientModule',
-		canActivate: [AuthGuard]
+		// canActivate: [AuthGuard]
 	},
 	{
 		path: 'issuer',

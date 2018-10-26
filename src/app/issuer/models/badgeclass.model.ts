@@ -1,4 +1,4 @@
-import { BadgeClassUrl, ApiBadgeClass, BadgeClassRef, ApiBadgeClassAlignment } from "./badgeclass-api.model";
+import { BadgeClassUrl, ApiBadgeClass, BadgeClassRef, ApiBadgeClassAlignment, DurationUnitsType } from './badgeclass-api.model';
 import { IssuerUrl } from "./issuer-api.model";
 import { ManagedEntity } from "../../common/model/managed-entity";
 import { ApiEntityRef } from "../../common/model/entity-ref";
@@ -64,6 +64,20 @@ export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 	set tags(tags: string[]) {
 		this.apiModel.tags = tags;
 	}
+
+	get expirationDurationUnit(): DurationUnitsType | undefined {
+		return this.apiModel.expiration_duration_unit;
+	}
+	set expirationDurationUnit(expirationDurationUnit: DurationUnitsType | undefined){
+		this.apiModel.expiration_duration_unit = expirationDurationUnit;
+	}
+	get expirationDurationValue(): number | undefined {
+		return this.apiModel.expiration_duration_value;
+	}
+	set expirationDurationValue(expirationDurationValue: number | undefined){
+		this.apiModel.expiration_duration_value = expirationDurationValue;
+	}
+	
 
 	get issuerSlug(): string {
 		return BadgeClass.issuerSlugFromUrl(this.issuerUrl);

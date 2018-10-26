@@ -9,7 +9,7 @@ import { SessionService } from "../common/services/session.service";
 import { MessageService } from "../common/services/message.service";
 import { Issuer } from "./models/issuer.model";
 
-import { ApiBadgeClassAlignment, ApiBadgeClassForCreation } from "./models/badgeclass-api.model";
+import { ApiBadgeClassAlignment, ApiBadgeClassForCreation, DurationUnitsType } from './models/badgeclass-api.model';
 import { BadgeClassManager } from "./services/badgeclass-manager.service";
 import { IssuerManager } from "./services/issuer-manager.service";
 import { markControlsDirty } from "../common/util/form-util";
@@ -259,6 +259,44 @@ import { BadgeClass } from "./models/badgeclass.model";
 				        (click)="disableTags()"
 				>Remove</button>
 			</div>
+
+			<!-- Expiration Panel -->
+			<div class="l-formsection wrap wrap-well" role="group" aria-labelledby="heading-tags" *ngIf="expirationEnabled">
+				<h3 class="l-formsection-x-legend title title-ruled" id="heading-tags">Expiration</h3>
+				<div class="l-formsection-x-container">
+					<div class="l-formsection-x-help">
+						<h4 class="title title-bordered" id="heading-whataretags">Badge Expiration?</h4>
+						<p class="text text-small">
+						Add the duration this badge is generally valid for. This can also be changed at the time of award. Badges will be marked as expired after expiration.
+						</p>
+						<a class="button button-tertiaryghost"
+						   href="https://support.badgr.io/pages/viewpage.action?pageId=327768"
+						   aria-labelledby="heading-whataretags"
+						   target="_blank"
+						>Learn More</a>
+					</div>
+					<div class="l-formsection-x-inputs">
+	
+						<div class="formfield">
+							<label>How long is this award valid?</label>
+							<div class="l-formtwoup">
+								<bg-formfield-text [control]="badgeClassForm.controls.expiration_duration_value"
+								></bg-formfield-text>
+								<bg-formfield-select ariaLabel="Select Duration Unit"
+								                     [control]="badgeClassForm.controls.expiration_duration_unit"
+								                     [optionMap]="durationUnitsMap"
+								></bg-formfield-select>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<button class="l-formsection-x-remove formsectionremove" 
+				        aria-labelledby="heading-tags" 
+				        type="button"
+				        (click)="disableExpiration()"
+				>Remove</button>
+			</div>
 			
 			<!-- Footer -->
 			<div class="l-formsection l-formsection-span wrap wrap-well" role="group" aria-labelledby="heading-addoptionaldetails">
@@ -280,6 +318,13 @@ import { BadgeClass } from "./models/badgeclass.model";
 							        [disabled]="tagsEnabled"
 							>
 								<span class="squareiconcard-x-container">Tags</span>
+							</button>
+							<button class="squareiconcard squareiconcard-expiration"
+							        type="button"
+							        (click)="enableExpiration()"
+							        [disabled]="expirationEnabled"
+							>
+								<span class="squareiconcard-x-container">Expiration</span>
 							</button>
 						</div>
 					</div>
@@ -362,7 +407,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 		protected dialogService: CommonDialogsService
 	) {
 		super(router, route, sessionService);
-		title.setTitle("Create Badge Class - Badgr");
+		title.setTitle("Create Badge Class");
 
 		this.badgeClassForm = fb.group({
 			badge_name: [
@@ -372,14 +417,16 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 					Validators.maxLength(255)
 				])
 			],
-			badge_image: [ '', Validators.required ],
-			badge_description: [ '', Validators.required ],
-			badge_criteria_url: [ '' ],
-			badge_criteria_text: [ '' ],
-			alignments: fb.array([])
-		} as BasicBadgeForm<any[], FormArray> , {
-			validator: this.criteriaRequired
-		});
+			badge_image: ['', Validators.required],
+			badge_description: ['', Validators.required],
+			badge_criteria_url: [''],
+			badge_criteria_text: [''],
+			alignments: fb.array([]),
+			expiration_duration_value: [null],
+			expiration_duration_unit: [""]
+		} as BasicBadgeForm<any[], FormArray>, {
+				validator: this.criteriaRequired
+			});
 	}
 
 	initFormFromExisting() {
@@ -393,20 +440,22 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 					Validators.maxLength(255)
 				])
 			],
-			badge_image: [ badgeClass.image, Validators.required ],
-			badge_description: [ badgeClass.description, Validators.required ],
-			badge_criteria_url: [ badgeClass.criteria_url ],
-			badge_criteria_text: [ badgeClass.criteria_text ],
+			badge_image: [badgeClass.image, Validators.required],
+			badge_description: [badgeClass.description, Validators.required],
+			badge_criteria_url: [badgeClass.criteria_url],
+			badge_criteria_text: [badgeClass.criteria_text],
+			expiration_duration_value: [badgeClass.expirationDurationValue],
+			expiration_duration_unit: [badgeClass.expirationDurationUnit],
 			alignments: this.fb.array(this.badgeClass.alignments.map(alignment => this.fb.group({
-				target_name: [ alignment.target_name, Validators.required ],
-				target_url: [ alignment.target_url, Validators.compose([Validators.required, UrlValidator.validUrl]) ],
-				target_description: [ alignment.target_description ],
-				target_framework: [ alignment.target_framework ],
-				target_code: [ alignment.target_code ],
+				target_name: [alignment.target_name, Validators.required],
+				target_url: [alignment.target_url, Validators.compose([Validators.required, UrlValidator.validUrl])],
+				target_description: [alignment.target_description],
+				target_framework: [alignment.target_framework],
+				target_code: [alignment.target_code],
 			} as AlignmentFormGroup<any[]>)))
-		} as BasicBadgeForm<any[], FormArray> , {
-			validator: this.criteriaRequired
-		});
+		} as BasicBadgeForm<any[], FormArray>, {
+				validator: this.criteriaRequired
+			});
 
 		this.tags = new Set();
 		this.badgeClass.tags.forEach(t => this.tags.add(t));
@@ -456,6 +505,29 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	removeTag(tag: string) {
 		this.tags.delete(tag);
 	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Expiration
+	expirationEnabled = false;
+
+
+	durationUnitsMap: {[key in DurationUnitsType]: string} = {
+		days: "Days",
+		weeks: "Weeks",
+		months: "Months",
+		years: "Years"
+	}
+
+	enableExpiration() {
+		this.expirationEnabled = true;
+	}
+
+	disableExpiration() {
+		this.expirationEnabled = false;
+	}
+	get expiration() {
+		return this.badgeClassForm.controls["expiration"] as FormControl;
+	}
+
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Alignments
@@ -479,11 +551,11 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 
 	addAlignment() {
 		const group = this.fb.group({
-			target_name: [ '', Validators.required ],
-			target_url: [ '', Validators.compose([Validators.required, UrlValidator.validUrl]) ],
-			target_description: [ '' ],
-			target_framework: [ '' ],
-			target_code: [ '' ],
+			target_name: ['', Validators.required],
+			target_url: ['', Validators.compose([Validators.required, UrlValidator.validUrl])],
+			target_description: [''],
+			target_framework: [''],
+			target_code: [''],
 		} as AlignmentFormGroup<any[]>);
 
 		this.alignments.push(group);
@@ -502,16 +574,16 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 		const controls: AlignmentFormGroup<FormControl> = alignment.controls as any;
 
 		if (controls.target_name.value.trim().length > 0
-		 || controls.target_url.value.trim().length > 0
-		 || controls.target_description.value.trim().length > 0
-		 || controls.target_framework.value.trim().length > 0
-		 || controls.target_code.value.trim().length > 0
+			|| controls.target_url.value.trim().length > 0
+			|| controls.target_description.value.trim().length > 0
+			|| controls.target_framework.value.trim().length > 0
+			|| controls.target_code.value.trim().length > 0
 		) {
 			if (! await this.dialogService.confirmDialog.openTrueFalseDialog({
-					dialogTitle: "Remove Alignment?",
-					dialogBody: "Are you sure you want to remove this alignment? This action cannot be undone.",
-					resolveButtonLabel: "Remove Alignment",
-					rejectButtonLabel: "Cancel"
+				dialogTitle: "Remove Alignment?",
+				dialogBody: "Are you sure you want to remove this alignment? This action cannot be undone.",
+				resolveButtonLabel: "Remove Alignment",
+				rejectButtonLabel: "Cancel"
 			})) return;
 		}
 
@@ -521,12 +593,12 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	criteriaRequired(formGroup: FormGroup): {[id: string]: boolean} | null {
+	criteriaRequired(formGroup: FormGroup): { [id: string]: boolean } | null {
 		const controls: BasicBadgeForm<FormControl, FormArray> = formGroup.controls as any;
 
-		return ((controls.badge_criteria_url.value||"").trim().length || (controls.badge_criteria_text.value||"").trim().length)
+		return ((controls.badge_criteria_url.value || "").trim().length || (controls.badge_criteria_text.value || "").trim().length)
 			? null
-			: { 'criteriaRequired' : true };
+			: { 'criteriaRequired': true };
 	}
 
 	get alignmentFieldDirty() {
@@ -542,6 +614,8 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			this.existingBadgeClass.criteria_url = formState.badge_criteria_url;
 			this.existingBadgeClass.alignments = this.alignmentsEnabled ? formState.alignments : [];
 			this.existingBadgeClass.tags = this.tagsEnabled ? Array.from(this.tags) : [];
+			this.existingBadgeClass.expirationDurationUnit = formState.expiration_duration_unit as DurationUnitsType;
+			this.existingBadgeClass.expirationDurationValue = parseInt(formState.expiration_duration_value) || undefined;
 			this.savePromise = this.existingBadgeClass.save();
 		} else {
 			const badgeClassData = {
@@ -551,7 +625,9 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 				criteria_text: formState.badge_criteria_text,
 				criteria_url: formState.badge_criteria_url,
 				tags: this.tagsEnabled ? Array.from(this.tags) : [],
-				alignment: this.alignmentsEnabled ? formState.alignments : []
+				alignment: this.alignmentsEnabled ? formState.alignments : [],
+				expiration_duration_unit: formState.expiration_duration_unit as DurationUnitsType,
+				expiration_duration_value: parseInt(formState.expiration_duration_value) || undefined
 			} as ApiBadgeClassForCreation;
 
 			this.savePromise = this.badgeClassManager.createBadgeClass(this.issuerSlug, badgeClassData);
@@ -561,13 +637,13 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	}
 
 	submitClicked(ev: Event) {
-		if (! this.badgeClassForm.valid) {
+		if (!this.badgeClassForm.valid) {
 			ev.preventDefault();
 			markControlsDirty(this.badgeClassForm);
 
 			// fire on next cycle, otherwise the immediate click event will dismiss the formmessage before its viewed
 			setTimeout(() => {
-				window.scrollTo(0,0);
+				window.scrollTo(0, 0);
 				this.messageService.reportHandledError("There were errors in your submission. Please review and try again.")
 			});
 		}
@@ -597,4 +673,6 @@ interface BasicBadgeForm<BasicType, AlignmentsType> {
 	badge_criteria_url: BasicType;
 	badge_criteria_text: BasicType;
 	alignments: AlignmentsType;
+	expiration_duration_value: BasicType;
+	expiration_duration_unit: BasicType;
 }
