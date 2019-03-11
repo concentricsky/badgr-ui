@@ -38,7 +38,7 @@ events {
 http {
     server {
         listen   4000;
-        server_name  $DOMAIN;
+        server_name $DOMAIN;
         access_log off;
         root   /badgr/dist;
         location / {
@@ -48,7 +48,13 @@ http {
 }
 EOF
 
-npm run build:app
+if [ -f dist/.app-domain ] && [ "`cat dist/.app-domain`" == "$DOMAIN" ]; then
+  echo "INFO: frontend already built for $DOMAIN."
+else
+  echo "INFO: building the frontend for $DOMAIN."
+  npm run build && echo "$DOMAIN" > dist/.app-domain
+fi
 
+echo "INFO: start nginx server to serve the frontend"
 nginx -c nginx.conf
 
