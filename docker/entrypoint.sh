@@ -52,7 +52,7 @@ if [ -f dist/.app-domain ] && [ "`cat dist/.app-domain`" == "$DOMAIN" ]; then
   echo "INFO: frontend already built for $DOMAIN."
 else
   echo "INFO: building the frontend for $DOMAIN."
-  npm run build && echo "$DOMAIN" > dist/.app-domain
+  npm run build && echo -n "$DOMAIN" > dist/.app-domain
 fi
 
 echo "INFO: start nginx server to serve the frontend"
