@@ -46,8 +46,14 @@ Copy the example file, `environment.prod.ts.example` to `environment.prod.ts` an
 
 ### Building
 
-Build the packaged files for deployment with `npm run build:prod`
+Build the packaged files for deployment with `npm run build:app`
 
-Run the tests with `npm run test:ci`
+Run the tests with `npm run test`
 
 All files in `dist` constitute the build artifact.
+
+### Docker
+
+```shell
+docker build -t badgr-ui . && docker run --rm -e DOMAIN=localhost:4000 -p 4000:4000 badgr-ui
+```
