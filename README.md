@@ -18,10 +18,13 @@ An Angular 2 based front end for Badgr-server. Uses TypeScript with ES6 style mo
 
 ### Run project in your browser
 
-Start webpack in dev mode: `npm run server`
+You have these options:
 
-Badgr should now be loaded in your browser. If your browser didn't start automatically, navigate to http://localhost:4000
-
+- Start the angular server: `npm start`  
+    You can open the browser at http://localhost:4200
+- Start webpack in dev mode: `npm run server`  
+    Badgr should now be loaded in your browser.
+		If your browser didn't start automatically, navigate to http://localhost:4000
 
 ### Run Tests
 
