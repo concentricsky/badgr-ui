@@ -57,7 +57,7 @@
 		"tether": "^1.4.6",
 		"tiny-sha256": "1.0.2",
 		"tslib": "^1.9.0",
-		"validator": "^10.11.0",
+		"validator": "10.11.0",
 		"zone.js": "^0.8.29"
 	},
 	"devDependencies": {
