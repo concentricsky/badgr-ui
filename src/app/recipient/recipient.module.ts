@@ -23,7 +23,8 @@ const routes = [
 	/* Recipient Badges */
 	{
 		path: "",
-		redirectTo: 'badges',
+		pathMatch: "full",
+		redirectTo: 'badges'
 	},
 	{
 		path: "badges",
@@ -54,6 +55,7 @@ const routes = [
 	},
 	{
 		path: "**",
+		pathMatch: 'full',
 		redirectTo: 'badges',
 	},
 ];
