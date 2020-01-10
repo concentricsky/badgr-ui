@@ -174,8 +174,14 @@ export abstract class BaseHttpApiService {
 			response: T
 		): T | never => {
 			if (response && response.status < 200 || response.status >= 300) {
-				if (response.status === 401 || response.status === 403) {
+				if (response.status === 401) {
 					this.sessionService.handleAuthenticationError();
+				} else if (response.status === 403) {
+					let message = 'You do not have access to this resource';
+					if (response instanceof HttpErrorResponse && response.error) {
+						message = response.error.detail;
+					}
+					throw new BadgrApiError(message, response);
 				} else if (response.status === 0) {
 					this.messageService.reportFatalError(`Server Unavailable`);
 					// TODO: Is this going to cause trouble?
