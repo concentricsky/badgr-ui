@@ -5,6 +5,7 @@
 	"scripts": {
 		"ng": "ng",
 		"start": "ng serve",
+		"start-docker": "ng serve --host 0.0.0.0 --disable-host-check",
 		"start-intellij": "ng serve --host 0.0.0.0 --disable-host-check --aot 2>&1 | perl -e '$|++; while (<>) { s/((ERROR|WARNING) in\\s*)(.*)/$1\\n$3/g; print $_; }'",
 		"build:widgets": "webpack --config widgets-webpack.config.ts",
 		"verify-prod-environment": "[[ -f src/environments/environment.prod.ts ]] || (echo '\\033[0;31m!!!'; echo '\\033[0;31m!!! No envrionment.prod.ts file present. Copy environment.prod.ts.example and modify it for your environment or consult the README'; echo '\\033[0;31m!!!'; echo; exit -1)",
