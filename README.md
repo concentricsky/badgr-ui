@@ -12,7 +12,7 @@ An Angular 2 based front end for Badgr-server. Uses TypeScript with ES6 style mo
 
 ### Install and configure project
 * Install and run  [badgr-server](https://github.com/concentricsky/badgr-server-prerelease), the API that this application connects to.
-* Install node/npm version using nvm: `nvm use && nvm install`
+* Install node/npm version using nvm: `nvm install && nvm use`
 * Install project-specific node dependencies. `npm install`
 
 
