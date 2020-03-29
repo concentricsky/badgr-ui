@@ -23,7 +23,7 @@ Start angular in dev mode: `npm start`. Badgr should now be loaded in your brows
 Ensure it is communicating with the correct API (The port `badgr-server` is running on)
 
 ```
-localStorage.setItem('config', JSON.stringify({api:{baseUrl:"http://localhost:8000"}}))
+localStorage.setItem('config', JSON.stringify({api:{baseUrl:"http://localhost:8080"}}))
 ```
 
 ### Run Tests
